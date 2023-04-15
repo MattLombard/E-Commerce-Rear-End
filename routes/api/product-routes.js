@@ -5,9 +5,12 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // get all products
 router.get('/', async (req, res) => {
+  // async is a keyword that makes a function return a Promise
   try {
+    // try/catch is a way to handle errors
     const productData = await Product.findAll({
-      include: [{ model: Category }, { model: Tag, through: ProductTag }],
+      // findAll() is a Sequelize method
+      include: [{ model: Category }, { model: Tag, through: ProductTag }], // include the Category and Tag models
     });
     res.status(200).json(productData);
   } catch (err) {
@@ -19,7 +22,8 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [{ model: Category }, { model: Tag, through: ProductTag }],
+      // findByPk() is a Sequelize method
+      include: [{ model: Category }, { model: Tag, through: ProductTag }], // include the Category and Tag models
     });
     if (!productData) {
       res.status(404).json({ message: 'No product found with this id!' });
@@ -51,7 +55,7 @@ router.post('/', (req, res) => {
             tag_id,
           };
         });
-        return ProductTag.bulkCreate(productTagIdArr);
+        return ProductTag.bulkCreate(productTagIdArr); // bulkCreate() is a Sequelize method
       }
       // if no product tags, just respond
       res.status(200).json(product);

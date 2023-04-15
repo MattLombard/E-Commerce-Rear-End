@@ -6,26 +6,29 @@ const { Category, Product } = require('../../models');
 router.get('/', async (req, res) => {
   try {
     const categoryData = await Category.findAll({
-      include: [{ model: Product }],
+      // findAll() is a Sequelize method
+      include: [{ model: Product }], // include the Product model
     });
-    res.status(200).json(categoryData);
+    res.status(200).json(categoryData); // return the data as JSON
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err); // return the error as JSON
   }
 });
 
 router.get('/:id', async (req, res) => {
   try {
     const categoryData = await Category.findByPk(req.params.id, {
-      include: [{ model: Product }],
+      // findByPk() is a Sequelize method
+      include: [{ model: Product }], // include the Product model
     });
     if (!categoryData) {
-      res.status(404).json({ message: 'No category found with this id!' });
+      // if no category is found, return a 404 error
+      res.status(404).json({ message: 'No category found with this id!' }); // return the error as JSON
       return;
     }
-    res.status(200).json(categoryData);
+    res.status(200).json(categoryData); // return the data as JSON
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err); // return the error as JSON
   }
 });
 
@@ -41,23 +44,27 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const categoryData = await Category.update(req.body, {
+      // update() is a Sequelize method
       where: {
-        id: req.params.id,
+        // where is a Sequelize method
+        id: req.params.id, // where the id is equal to the id in the request
       },
     });
     if (!categoryData) {
-      res.status(404).json({ message: 'No category found with this id!' });
-      return;
+      // if no category is found, return a 404 error
+      res.status(404).json({ message: 'No category found with this id!' }); // return the error as JSON
+      return; // return out of the function
     }
-    res.status(200).json(categoryData);
+    res.status(200).json(categoryData); // return the data as JSON
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err); // return the error as JSON
   }
 });
 
 router.delete('/:id', async (req, res) => {
   try {
     const categoryData = await Category.destroy({
+      // destroy() is a Sequelize method
       where: {
         id: req.params.id,
       },

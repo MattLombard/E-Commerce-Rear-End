@@ -4,22 +4,30 @@ const { Tag, Product, ProductTag } = require('../../models');
 // The `/api/tags` endpoint
 
 router.get('/', async (req, res) => {
+  // async function
   try {
+    // try to run the code
     const tagData = await Tag.findAll({
-      include: [{ model: Product, through: ProductTag }],
+      // findAll() is a Sequelize method
+      include: [{ model: Product, through: ProductTag }], // include the Product model
     });
-    res.status(200).json(tagData);
+    res.status(200).json(tagData); // return the data as JSON
   } catch (err) {
-    res.status(500).json(err);
+    // if there is an error, run this code
+    res.status(500).json(err); // return the error as JSON
   }
 });
 
 router.get('/:id', async (req, res) => {
+  // async function
   try {
+    // try to run the code
     const tagData = await Tag.findByPk(req.params.id, {
-      include: [{ model: Product, through: ProductTag }],
+      // findByPk() is a Sequelize method
+      include: [{ model: Product, through: ProductTag }], // include the Product model
     });
     if (!tagData) {
+      // if no tag is found, return a 404 error
       res.status(404).json({ message: 'No tag found with this id!' });
       return;
     }
